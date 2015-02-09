@@ -1,6 +1,8 @@
 # puppet-percona
 Install percona from binary tar.gz for Linux
 
+Requires camptopcamp/archives
+
 ####Parameters
 
 Check params.pp for defaults, and my.cnf defaults.
