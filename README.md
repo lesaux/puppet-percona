@@ -1,7 +1,7 @@
 # puppet-percona
 Install percona from binary tar.gz for Linux
 
-###Parameters
+####Parameters
 
 Check params.pp for defaults, and my.cnf defaults.
 
@@ -45,6 +45,8 @@ Check params.pp for defaults, and my.cnf defaults.
 [manage_initd]
 
  creates an initd file for you
+
+####Other parameters
 
 List of files you can manage with parameters. You probably shouldn't have any of these in your override_options.
 
