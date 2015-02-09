@@ -3,6 +3,8 @@ Install percona from binary tar.gz for Linux
 
 Requires camptopcamp/archives
 
+Debian OS Family only for now.
+
 ####Parameters
 
 Check params.pp for defaults, and my.cnf defaults.
