@@ -18,9 +18,7 @@
 
 ## Overview
 
-A one-maybe-two sentence summary of what the module does/what problem it solves.
-This is your 30 second elevator pitch for your module. Consider including
-OS/Puppet version it works with.
+Install percona from binary tar.gz for Linux and perform basic configuration.
 
 ## Module Description
 
