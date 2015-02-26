@@ -1,0 +1,14 @@
+{
+  "name": "lesaux-percona",
+  "version": "0.0.1",
+  "author": "lesaux",
+  "summary": "Installation and basic configuration of percona",
+  "license": "Apache 2.0",
+  "source": "https://github.com/lesaux/puppet-percona.git",
+  "project_page": "https://github.com/lesaux/puppet-percona",
+  "issues_url": "https://github.com/lesaux/puppet-percona/issues",
+  "dependencies": [
+    {"name":"puppetlabs-stdlib","version_requirement":">= 1.0.0"}
+  ]
+}
+

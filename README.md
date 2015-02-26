@@ -1,123 +1,82 @@
-# puppet-percona
-Install percona from binary tar.gz for Linux
+# percona
 
-Requires camptopcamp/archives
+[![Puppet Forge](http://img.shields.io/puppetforge/v/lesaux/percona.svg)](https://forge.puppetlabs.com/lesaux/percona)
+[![Build Status](http://img.shields.io/travis/lesaux/puppet-percona.svg)](http://travis-ci.org/lesaux/puppet-percona)
 
-Debian OS Family only for now.
+#### Table of Contents
 
-####Parameters
+1. [Overview](#overview)
+2. [Module Description - What the module does and why it is useful](#module-description)
+3. [Setup - The basics of getting started with percona](#setup)
+    * [What percona affects](#what-percona-affects)
+    * [Setup requirements](#setup-requirements)
+    * [Beginning with percona](#beginning-with-percona)
+4. [Usage - Configuration options and additional functionality](#usage)
+5. [Reference - An under-the-hood peek at what the module is doing and how](#reference)
+5. [Limitations - OS compatibility, etc.](#limitations)
+6. [Development - Guide for contributing to the module](#development)
 
-Check params.pp for defaults, and my.cnf defaults.
+## Overview
 
-[download_url]
+A one-maybe-two sentence summary of what the module does/what problem it solves.
+This is your 30 second elevator pitch for your module. Consider including
+OS/Puppet version it works with.
 
- URL to download Percona-Server-*.Linux.x86_64.tar.gz from.
- 
-[manage_user]
+## Module Description
 
- Create a user for the percona install.
- requires percona_group and percona_user defined.
+If applicable, this section should have a brief description of the technology
+the module integrates with and what that integration enables. This section
+should answer the questions: "What does this module *do*?" and "Why would I use
+it?"
 
-[install_dir]
+If your module has a range of functionality (installation, configuration,
+management, etc.) this is the time to mention it.
 
- /opt by default
- 
-[symlink_name]
+## Setup
 
- /opt/percona by default
- 
-[version]
+### What percona affects
 
- not evaluated automatically yet from download url (or vice-versa?)
- 
-[initdb]
+* A list of files, packages, services, or operations that the module will alter,
+  impact, or execute on the system it's installed on.
+* This is a great place to stick any warnings.
+* Can be in list or paragraph form.
 
- run mysql_install_db
- 
-[manage_config_file]
+### Setup Requirements **OPTIONAL**
 
- creates a default config file for you, or custom config file of you define override_options.
- 
-[manage_binaries_path]
+If your module requires anything extra before setting up (pluginsync enabled,
+etc.), mention it here.
 
- creates a /etc/profile.d/percona.sh file adding binaries to PATH.
- 
-[manage_directories]
+### Beginning with percona
 
- ensure the creation of directories defined below. Parent dirs are created, but unmanaged by puppet.
- 
-[manage_initd]
+The very basic steps needed for a user to get the module up and running.
 
- creates an initd file for you
+If your most recent release breaks compatibility or requires particular steps
+for upgrading, you may wish to include an additional section here: Upgrading
+(For an example, see http://forge.puppetlabs.com/puppetlabs/firewall).
 
-####Other parameters
+## Usage
 
-List of files you can manage with parameters. You probably shouldn't have any of these in your override_options.
+Put the classes, types, and resources for customizing, configuring, and doing
+the fancy stuff with your module here.
 
-  [socketdir]
-  
-  [socket]
-  
-  [datadir]
-  
-  [logdir]
-  
-  [log_error]
-  
-  [piddir]
+## Reference
 
-  [pidfile]
-  
-  [tmpdir]
+Here, list the classes, types, providers, facts, etc contained in your module.
+This section should include all of the under-the-hood workings of your module so
+people know what the module is touching on their system but don't need to mess
+with things. (We are working on automating this section!)
 
+## Limitations
 
-####Example Usage:
-```
-#let's randomize server-id
-$serverid = fqdn_rand(30)
+This is where you list OS compatibility, version compatibility, etc.
 
-$override_options = {
-  'client' => {
-    'port'             => '3306',
-  },
-  'mysqld_safe' => {
-    'nice'		=> '-20',
-  },
-  'mysqld' => {
-    'port'		=> '3306',
-    'bind-address'      => '0.0.0.0',
-    'skip-external-locking' => true,
-    'old-passwords' => true,
-  },
-  'mysqldump' => {
-    'quick' => 'true',
-    'quote-names' => 'true',
-    'max_allowed_packet' => '16M',
-  },
-  'isamchk' => {
-    'key_buffer_size' => '16M',
-  }
-}
+## Development
 
-class {'percona':
-  percona_group        => mysql,
-  percona_user         => mysql,
-  symlink              => true,
-  initdb               => true,
-  manage_user          => true,
-  manage_binaries_path => true,
-  manage_config_file   => true,
-  manage_directories   => true,
-  manage_initd         => true,
+Since your module is awesome, other users will want to play with it. Let them
+know what the ground rules for contributing are.
 
-  socketdir            => '/mysql/socket',
-  socket               => 'mysql.sock',
-  logdir               => '/mysql/logs',
-  log_error            => 'mysql.err',
-  piddir               => '/mysql/pid',
-  pidfile              => 'mysql.pid',
-  datadir              => '/mysql/data',
-  tmpdir               => '/mysql/tmp',
+## Release Notes/Contributors/Etc **Optional**
 
-}
-```
+If you aren't using changelog, put your release notes here (though you should
+consider using changelog). You may also add any additional sections you feel are
+necessary or important to include here. Please use the `## ` header.

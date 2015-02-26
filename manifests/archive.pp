@@ -1,10 +1,25 @@
-class percona::install {
+class percona::archive {
 
-    archive { "Percona-Server-${percona::version}.Linux.x86_64":
+  if $percona::install_method == archive {
+
+    #Some regexp mojo to build the url from version.
+    #remove chars after dash in version i.e 5.5.41-rel37.0
+    $stripped_version     = regsubst( $percona::version, '\-[^.]*$', '' )
+    #remove "rel" from previous regsubst result i.e 5.5.41-37.0
+    $short_version        = regsubst( $stripped_version, 'rel', '' , 'G')
+    #keep first two values separated by dot i.e 5.5
+    $major_version        =regsubst( $percona::version, '^([^.]*.[^.]*).*$', '\1'  )
+
+    $download_url         = "http://www.percona.com/downloads/Percona-Server-${major_version}/Percona-Server-${short_version}/binary/tarball/Percona-Server-${version}.Linux.x86_64.tar.gz"
+
+
+
+    archive { "Percona-Server":
+      name     => "Percona-Server-${percona::version}.Linux.x86_64",
       ensure   => present,
       checksum => false,
       target   => $percona::install_dir,
-      url      => $percona::download_url,
+      url      => $download_url,
     }->
 
     file { "${percona::install_dir}/Percona-Server-${percona::version}.Linux.x86_64":
@@ -41,6 +56,7 @@ class percona::install {
       }
     }
 
+  }
 
 }
 

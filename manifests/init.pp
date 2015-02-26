@@ -1,8 +1,9 @@
 class percona (
 
-  $download_url         = "http://www.percona.com/downloads/Percona-Server-5.5/Percona-Server-5.5.41-37.0/binary/tarball/Percona-Server-5.5.41-rel37.0-727.Linux.x86_64.tar.gz",
   $percona_group        = $percona::params::percona_group,
+  $percona_gid          = $percona::params::percona_gid,
   $percona_user         = $percona::params::percona_user,
+  $percona_uid          = $percona::params::percona_uid,
   $install_dir          = $percona::params::install_dir,
   $install_method       = $percona::params::install_method,
   $symlink              = $percona::params::symlink,
@@ -72,13 +73,12 @@ class percona (
   }
 
 ) inherits percona::params {
-
+    
     class {'percona::user': }->
     class {'percona::prereqs': }->
-    class {'percona::install': }->
+    class {'percona::archive': }->
     class {'percona::config': }->
     class {'percona::directories': }->
     class {'percona::initdb': }
   
-
 }
