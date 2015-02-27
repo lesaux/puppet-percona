@@ -18,7 +18,7 @@
 
 ## Overview
 
-Install percona from binary tar.gz for Linux and perform basic configuration.
+This module installs percona from binary tar.gz for Linux and perform basic configuration.
 
 ## Module Description
 
@@ -34,28 +34,144 @@ management, etc.) this is the time to mention it.
 
 ### What percona affects
 
-* A list of files, packages, services, or operations that the module will alter,
-  impact, or execute on the system it's installed on.
-* This is a great place to stick any warnings.
-* Can be in list or paragraph form.
-
-### Setup Requirements **OPTIONAL**
-
-If your module requires anything extra before setting up (pluginsync enabled,
-etc.), mention it here.
+This module will download and extract the binary archive of percona to /opt/
+It can optionally create a symlink such as /opt/percona as well.
+The module can create a default mysql configuration file, or customize it for you.
+Mysql data folders can also be automatically created.
 
 ### Beginning with percona
 
-The very basic steps needed for a user to get the module up and running.
+A simple example
 
-If your most recent release breaks compatibility or requires particular steps
-for upgrading, you may wish to include an additional section here: Upgrading
-(For an example, see http://forge.puppetlabs.com/puppetlabs/firewall).
+```
+class {'percona':
+  percona_group        => mysql,
+  percona_user         => mysql,
+  symlink              => true,
+  initdb               => false,
+  manage_user          => true,
+  manage_binaries_path => true,
+  manage_config_file   => true,
+  manage_directories   => true,
+  manage_initd         => true,
+
+  socketdir            => '/mysql/data',
+  socket               => 'mysqld.sock',
+  logdir               => '/mysql/logs',
+  log_error            => 'mysql.err',
+  piddir               => '/mysql/data',
+  pidfile              => 'mysqld.pid',
+  datadir              => '/mysql/data',
+  tmpdir               => '/mysql/tmp',
+}
+```
+
+The default my.cnf file would be:
+
+```
+[client]
+port = 3306
+socket = /mysql/data/mysqld.sock
+
+[isamchk]
+key_buffer_size = 16M
+
+[mysqld]
+bind-address = 127.0.0.1
+datadir = /mysql/data
+expire_logs_days = 10
+key_buffer_size = 16M
+log-error = /mysql/logs/mysql.err
+max_allowed_packet = 16M
+max_binlog_size = 100M
+max_connections = 151
+myisam_recover = BACKUP
+pid-file = /mysql/data/mysqld.pid
+port = 3306
+query_cache_limit = 1M
+query_cache_size = 16M
+skip-external-locking
+socket = /mysql/data/mysqld.sock
+ssl = false
+thread_cache_size = 8
+thread_stack = 256K
+tmpdir = /mysql/tmp
+user = mysql
+
+[mysqld_safe]
+log-error = /mysql/logs/mysql.err
+nice = 0
+socket = /mysql/data/mysqld.sock
+
+[mysqldump]
+max_allowed_packet = 16M
+quick
+quote-names
+```
+
 
 ## Usage
 
-Put the classes, types, and resources for customizing, configuring, and doing
-the fancy stuff with your module here.
+Check params.pp for defaults, and my.cnf defaults.
+
+###Installation parameters
+
+ [manage_user]
+
+Create a user for the percona install.
+requires percona_group, percona_gid, percona_user and percona_uid defined.
+
+ [install_dir]
+
+/opt by default
+
+ [symlink_name]
+
+/opt/percona by default
+
+ [version]
+
+By default 5.5.41-rel37.0-727 is used.
+
+ [initdb]
+
+run mysql_install_db. This code snippet was copied from puppetlabs-mysql module.
+
+ [manage_config_file]
+
+creates a default config file, or a custom config file of you define an "override_options" array.
+
+ [manage_binaries_path]
+
+creates a /etc/profile.d/percona.sh file adding binaries to PATH.
+
+ [manage_directories]
+
+ensures the creation of directories defined below. Parent dirs are created, but unmanaged by puppet.
+
+ [manage_initd]
+
+ creates an initd file for you
+
+###Configuration parameters
+
+####List of files and directories you can manage with parameters.
+
+  [socketdir]
+
+  [socket]
+
+  [datadir]
+
+  [logdir]
+
+  [log_error]
+
+  [piddir]
+
+  [pidfile]
+
+  [tmpdir]
 
 ## Reference
 
@@ -66,15 +182,5 @@ with things. (We are working on automating this section!)
 
 ## Limitations
 
-This is where you list OS compatibility, version compatibility, etc.
+At the moment the module works only on Ubuntu 14.04
 
-## Development
-
-Since your module is awesome, other users will want to play with it. Let them
-know what the ground rules for contributing are.
-
-## Release Notes/Contributors/Etc **Optional**
-
-If you aren't using changelog, put your release notes here (though you should
-consider using changelog). You may also add any additional sections you feel are
-necessary or important to include here. Please use the `## ` header.
