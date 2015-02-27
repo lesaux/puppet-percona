@@ -22,22 +22,23 @@ This module installs percona from binary tar.gz for Linux and perform basic conf
 
 ## Module Description
 
-If applicable, this section should have a brief description of the technology
-the module integrates with and what that integration enables. This section
-should answer the questions: "What does this module *do*?" and "Why would I use
-it?"
-
-If your module has a range of functionality (installation, configuration,
-management, etc.) this is the time to mention it.
+The module will download the binary archive from the percona website, and extract it for you.
+It will additionally install a few library dependencies and create symlinks for the binaries to run.
+Addtionally it can provide a default my.cnf configuration file, or customize one for you.
+This is done in the same fashion as the puppetlabs-mysql module, since I am using their mysql-deepmerge library
+to perform this task. A user can also be created which will be used to own files and run the process.
 
 ## Setup
 
 ### What percona affects
 
-This module will download and extract the binary archive of percona to /opt/
+This module will download and extract the binary archive of percona to /opt/percona-server.X.X.X-linux-x64
 It can optionally create a symlink such as /opt/percona as well.
-The module can create a default mysql configuration file, or customize it for you.
-Mysql data folders can also be automatically created.
+The libaio1 and libaio-dev packages will also be installed, as well as the following library symlinks:
+```
+/usr/lib/libssl.so.6 -> /lib/x86_64-linux-gnu/libssl.so.1.0.0
+/usr/lib/libcrypto.so.6 -> /lib/x86_64-linux-gnu/libcrypto.so.1.0.0
+```
 
 ### Beginning with percona
 
