@@ -5,7 +5,7 @@ class percona::config {
     mode    => '0644',
   }
 
-  $options = mysql_deepmerge($percona::default_options, $override_options)
+  $options = mysql_deepmerge($percona::default_options, $percona::override_options)
 
   if $percona::manage_config_file {
     file { '/etc/mysql/my.cnf':

@@ -6,31 +6,34 @@ class percona::params {
 
 #installation variables
 
-  $percona_group        = 'root'
-  $percona_user         = 'root'
+  $percona_group        = 'mysql'
+  $percona_gid          = '200'
+  $percona_user         = 'mysql'
+  $percona_uid          = '200'
   $install_dir          = '/opt'
   $install_method       = 'archive'
-  $symlink              = false
+  $symlink              = true
   $version              = '5.5.41-rel37.0-727'
   $binary_dir           = '/usr/bin'
-  $initdb               = false
-  $manage_user          = false
-  $manage_config_file   = false
-  $manage_binaries_path = false
-  $manage_directories   = false
-  $manage_initd         = false
+  $initdb               = true
+  $manage_user          = true
+  $manage_config_file   = true
+  $manage_binaries_path = true
+  $manage_directories   = true
+  $manage_service       = true
+  $ensure               = true
+  $enable               = true
 
-#my.cnf config varibles
+#my.cnf config variables
 
-  $socketdir            = '/var/lib/mysql'
-  $socket               = 'mysql.socket'
-  $datadir              = '/var/lib/mysql'
-  $logdir               = '/var/log/mysql'
-  $log_error            = 'mysql-error.log'
+  $socketdir            = '/var/lib/mysqld'
+  $socket               = 'mysqld.socket'
+  $datadir              = '/var/lib/mysqld'
+  $logdir               = '/var/log/mysqld'
+  $log_error            = 'mysqld.err'
   $piddir               = '/var/run/mysqld'
   $pidfile              = 'mysqld.pid'
   $tmpdir               = '/tmp'
 
-   
 }
 

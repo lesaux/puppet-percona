@@ -119,8 +119,8 @@ Check params.pp for defaults, and my.cnf defaults.
 
  [manage_user]
 
-Create a user for the percona install.
-requires percona_group, percona_gid, percona_user and percona_uid defined.
+Create a user for the percona install. Requires percona_group, percona_gid, 
+percona_user and percona_uid defined. Valid values are 'true' or 'false'. Defaults to false
 
  [install_dir]
 
@@ -136,52 +136,72 @@ By default 5.5.41-rel37.0-727 is used.
 
  [initdb]
 
-run mysql_install_db. This code snippet was copied from puppetlabs-mysql module.
+true or false: runs mysql_install_db. This code snippet was copied from puppetlabs-mysql module. Default is true.
 
  [manage_config_file]
 
-creates a default config file, or a custom config file of you define an "override_options" array.
+creates a default config file, or a custom config file of you define an "override_options" array. Default is true.
 
  [manage_binaries_path]
 
-creates a /etc/profile.d/percona.sh file adding binaries to PATH.
+creates a /etc/profile.d/percona.sh file adding binaries to PATH. Default is true.
 
  [manage_directories]
 
-ensures the creation of directories defined below. Parent dirs are created, but unmanaged by puppet.
+ensures the creation of directories defined below. Parent dirs are created, but unmanaged by puppet. Default is true.
 
  [manage_initd]
 
- creates an initd file for you
+ creates an initd file for you. Default is true.
 
 ###Configuration parameters
 
 ####List of files and directories you can manage with parameters.
+  $socketdir            = '/var/lib/mysql'
+  $socket               = 'mysql.socket'
+  $datadir              = '/var/lib/mysql'
+  $logdir               = '/var/log/mysql'
+  $log_error            = 'mysql-error.log'
+  $piddir               = '/var/run/mysqld'
+  $pidfile              = 'mysqld.pid'
+  $tmpdir               = '/tmp'
 
   [socketdir]
 
+defaults to /var/lib/mysql
+
   [socket]
+
+defaults to mysql.socket
 
   [datadir]
 
+defaults to /var/lib/mysql
+
   [logdir]
+
+default to /var/log/mysql
 
   [log_error]
 
+defaults mysql-error.log
+
   [piddir]
+
+defaults to /var/run/mysqld
 
   [pidfile]
 
+defaults to mysqld.pid
+
   [tmpdir]
+
+defaults to /tmp
 
 ## Reference
 
-Here, list the classes, types, providers, facts, etc contained in your module.
-This section should include all of the under-the-hood workings of your module so
-people know what the module is touching on their system but don't need to mess
-with things. (We are working on automating this section!)
+Thanks to camptocamp for their awesome archives module.
 
 ## Limitations
 
 At the moment the module works only on Ubuntu 14.04
-

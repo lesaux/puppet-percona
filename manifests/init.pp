@@ -14,8 +14,10 @@ class percona (
   $manage_config_file   = $percona::params::manage_config_file,
   $manage_binaries_path = $percona::params::manage_binaries_path,
   $manage_directories   = $percona::params::manage_directories,
-  $manage_initd         = $percona::params::manage_initd,
-  
+  $manage_service       = $percona::params::manage_service,
+  $ensure               = $percona::params::ensure,
+  $enable               = $percona::params::enable,
+
   $socketdir            = $percona::params::socketdir,
   $socket               = $percona::params::socket,
   $datadir              = $percona::params::datadir,
@@ -25,7 +27,9 @@ class percona (
   $pidfile              = $percona::params::pidfile,
   $tmpdir               = $percona::params::tmpdir,
 
-  $default_options = {
+  $override_options     = undef,
+
+  $default_options      = {
     'client'                  => {
       'port'                  => '3306',
       'socket'                => "$socketdir/$socket",
@@ -79,6 +83,7 @@ class percona (
     class {'percona::archive': }->
     class {'percona::config': }->
     class {'percona::directories': }->
-    class {'percona::initdb': }
+    class {'percona::initdb': }->
+    class {'percona::service': }
   
 }
